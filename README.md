@@ -6,7 +6,7 @@ Integrate [Particular.Cloud](https://particular.cloud/) into your development wo
 
 ## Documentation
 
-Please find the Particular.Cloud documentation on [particular.cloud/documentation](https://particular.cloud/documentation/vscode)
+Please find the Particular.Cloud documentation on [particular.cloud/documentation](https://particular.cloud/documentation)
 
 ## Integrations
 
