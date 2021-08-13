@@ -1,70 +1,113 @@
-# Getting Started with Create React App
+![Particular.Cloud](https://s3-us-west-1.amazonaws.com/particular.cloud/logo.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Create-React-App Integration
 
-## Available Scripts
+Integrate [Particular.Cloud](https://particular.cloud/) into your create-react-app project.
 
-In the project directory, you can run:
+## Create a project
 
-### `npm start`
+Create a project on [Particular.Cloud](https://particular.cloud/) and add your first language to it!
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Make sure to create one or two tests key value pairs to test your app.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Application Token
 
-### `npm test`
+Generate an app token on [Particular.Cloud](https://particular.cloud/). 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Our React SDKs uses the application token to query texts from Particular.Cloud.
+The app token is used by our VS Code extension and our cli npm package to automate your development workflow.
 
-### `npm run build`
+Find more information about how to generate a token at the [developer documentation](https://particular.cloud/documentation/developers).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+*Note:* Make sure to use a read-only token if you want to commit it publicly to your source control. Write-access tokens should be treated as secrets!
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Development configuration
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Copy the app token to your clipboard and add the following to your package.json:
 
-### `npm run eject`
+```json
+  "particular": {
+    "devToken": "<app_token>",
+    "defaultLanguage": "en-US"
+  }
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## VS Code extension
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Get the [VS Code extension](https://marketplace.visualstudio.com/items?itemName=particular-cloud.particular-cloud) to add some magic to your development workflow!
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Install dependencies
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### npm
 
-## Learn More
+```bash
+# install the react i18n sdk
+npm i @particular.cloud/i18n-react
+# install the command-line interface (cli)
+npm i -D particular.cloud
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### yarn
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+# install the react i18n sdk
+yarn add @particular.cloud/i18n-react
+# install the command-line interface (cli)
+yarn add -D particular.cloud
+```
 
-### Code Splitting
+## Load your texts during build time
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Add the following to your package.json scripts:
 
-### Analyzing the Bundle Size
+```json
+  "scripts": {
+    "texts": "particular.cloud texts"
+  }
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Run it! 🚀
 
-### Making a Progressive Web App
+```bash
+npm run texts
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+This will load your texts from Particular.Cloud into your node_modules folder.
 
-### Advanced Configuration
+*Note:* The cli runs as a postinstall script. If you deploy your code, the cli should be executed automatically on `npm i`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Configure i18n-react
 
-### Deployment
+Use the I18nProvider context provider to configure your Particular.Cloud integration.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```js
+import { I18nProvider } from '@particular/i18n-react';
+```
 
-### `npm run build` fails to minify
+Make sure to use the I18nProvider at the root of your project.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```jsx
+    <React.StrictMode>
+        <I18nProvider config={{ defaultLanguage: 'en-US' }}>
+            <App />
+        </I18nProvider>
+    </React.StrictMode>,
+```
+
+Learn about the extensive configuration options on the Particular.Cloud [i18n-js developer documentation](https://particular.cloud/documentation/developers/js/init).
+
+## Use the useText hook
+
+Use the useText hook to access your localized texts.
+
+```js
+import { useText } from '@particular/i18n-react';
+```
+
+```jsx
+ <h1 className="App-content">{useText({ key: 'lpTitle' })}</h1>
+```
+
+*Note:* Since we specified a default language in the configuration, the useText hook will return the text in the default language.
+
+Awesome! You integrated Particular.Cloud into your create-react-app project! 🎉
