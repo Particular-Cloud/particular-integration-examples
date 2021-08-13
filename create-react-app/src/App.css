@@ -5,8 +5,26 @@
   color: white;
 }
 
+.App-header {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
 .App-react-logo {
-  height: 10vh;
+  height: 6vh;
+  pointer-events: none;
+}
+
+.App-react-title {
+  margin-right: auto;
+}
+
+.App-logo {
+  height: 5vh;
+  padding: 10px;
   pointer-events: none;
 }
 
@@ -19,35 +37,12 @@
   }
 }
 
-.App-header {
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-}
-
-.App-header-react {
-  display: flex;
-  align-items: center;
-  margin-right: auto;
-}
-
-.App-header-particular {
-  display: flex;
-  align-items: center;
-}
-
 .App-link {
   color: #967bb6;
 }
 
 .App-link:hover {
   color: #a58ec1;
-}
-
-.App-logo {
-  height: 6vh;
-  margin-left: 20px;
-  pointer-events: none;
 }
 
 .App-main {

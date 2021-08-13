@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@particular.cloud/i18n-react": "^0.1.0",
+    "@particular.cloud/i18n-react": "^0.4.5",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
@@ -13,10 +13,13 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "texts": "particular.cloud texts"
   },
   "eslintConfig": {
     "extends": [
@@ -38,19 +41,21 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.26.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^6.15.0",
     "eslint-config-wesbos": "^1.0.1",
     "eslint-plugin-html": "^6.1.2",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-import": "^2.24.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "prettier": "^2.3.0"
+    "particular.cloud": "^0.0.5",
+    "prettier": "^2.3.2"
   },
   "particular": {
-    "devToken": "particular.dev-609db184f5ab920015bca769"
+    "devToken": "particular.public-611568b7042fbc0015ea9b90",
+    "defaultLanguage": "en-US"
   }
 }

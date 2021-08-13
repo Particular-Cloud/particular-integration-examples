@@ -6,17 +6,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <I18nProvider
-      token="particular.public-609db17cf5ab920015bca767"
-      config={{
-        enableWebsocket: true,
-      }}
-    >
-      <App />
-    </I18nProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <I18nProvider config={{ defaultLanguage: 'en-US' }}>
+            <App />
+        </I18nProvider>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
