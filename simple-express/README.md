@@ -1,8 +1,8 @@
 ![Particular.Cloud](https://s3-us-west-1.amazonaws.com/particular.cloud/logo.png)
 
-# Create-React-App Integration
+# Simple Express Integration
 
-Integrate [Particular.Cloud](https://particular.cloud/) into your create-react-app project.
+Integrate [Particular.Cloud](https://particular.cloud/) into your Node.js Express server.
 
 ## Create a project
 
@@ -12,10 +12,9 @@ Make sure to create one or two tests key value pairs to test your app.
 
 ## Application Token
 
-Generate an app token on [Particular.Cloud](https://particular.cloud/). 
+Generate an app (read-only) token on [Particular.Cloud](https://particular.cloud/). 
 
-Our React SDKs uses the application token to query texts from Particular.Cloud.
-The app token is used by our VS Code extension and our cli npm package to automate your development workflow.
+The app token is used by our cli npm package to automate your development workflow.
 
 Find more information about how to generate a token at the [developer documentation](https://particular.cloud/documentation/developers).
 
@@ -61,8 +60,8 @@ Add a `.particularrc.json` file to your project root and add the following to yo
 ### npm
 
 ```bash
-# install the react i18n sdk
-npm i @particular.cloud/i18n-react
+# install the JavaScript i18n sdk
+npm i @particular.cloud/i18n-js
 # install the command-line interface (cli)
 npm i -D particular.cloud
 ```
@@ -70,8 +69,8 @@ npm i -D particular.cloud
 ### yarn
 
 ```bash
-# install the react i18n sdk
-yarn add @particular.cloud/i18n-react
+# install the JavaScript i18n sdk
+yarn add @particular.cloud/i18n-js
 # install the command-line interface (cli)
 yarn add -D particular.cloud
 ```
@@ -96,38 +95,50 @@ This will load your texts from Particular.Cloud into your node_modules folder.
 
 *Note:* The cli runs as a postinstall script. If you deploy your code, the cli should be executed automatically on `npm i`.
 
-## Configure i18n-react
+## Use the t function call
 
-Use the I18nProvider context provider to configure your Particular.Cloud integration.
+Use the t function call to access your localized texts.
 
 ```js
-import { I18nProvider } from '@particular/i18n-react';
+const { i18n } = require('@particular/i18n-js');
+
+const reply = i18n.t({ key: 'helloReply', language: 'en-US' });
 ```
 
-Make sure to use the I18nProvider at the root of your project.
+Awesome! You integrated Particular.Cloud into your create-react-app project! 🎉
 
-```jsx
-    <React.StrictMode>
-        <I18nProvider config={{ defaultLanguage: 'en-US' }}>
-            <App />
-        </I18nProvider>
-    </React.StrictMode>,
+## Configure i18n-js
+
+Use the init function call to configure your Particular.Cloud integration.
+
+*Note:* Make sure to run init only once during start up.
+
+```js
+const { i18n } = require('@particular/i18n-js');
+
+i18n.init({ defaultLanguage: 'en-US' });
+```
+
+*Note:* Since we specified a default language in the configuration, we don't need to specify it in the t function call any longer.
+
+```js
+const { i18n } = require('@particular/i18n-js');
+
+const reply = i18n.t({ key: 'helloReply' });
 ```
 
 Learn about the extensive configuration options on the Particular.Cloud [i18n-js developer documentation](https://particular.cloud/documentation/developers/js/init).
 
-## Use the useText hook
+## Accept-Language header
 
-Use the useText hook to access your localized texts.
+Take advantage of the Accept-Language header to get the best localized texts.
 
 ```js
-import { useText } from '@particular/i18n-react';
+const { i18n } = require('@particular/i18n-js');
+
+const acceptLanguage = req.headers['accept-language'];
+i18n.setAcceptLanguage(acceptLanguage);
+
+// based on defaultLanguage and acceptLanguage header, query best fitting localized text
+const text = i18n.t({ key: 'helloReply' });
 ```
-
-```jsx
- <h1 className="App-content">{useText({ key: 'lpTitle' })}</h1>
-```
-
-*Note:* Since we specified a default language in the configuration, the useText hook will return the text in the default language.
-
-Awesome! You integrated Particular.Cloud into your create-react-app project! 🎉

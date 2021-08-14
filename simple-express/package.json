@@ -1,0 +1,34 @@
+{
+  "name": "simple-express",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "start": "node index",
+    "texts": "particular.cloud texts"
+  },
+  "dependencies": {
+    "@particular.cloud/i18n-js": "^0.4.7",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-wesbos": "^1.0.1",
+    "eslint-plugin-html": "^6.1.2",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "particular.cloud": "^0.0.5",
+    "prettier": "^2.3.2"
+  },
+  "particular": {
+    "devToken": "particular.public-6117ec9d190a6400150e40d7",
+    "defaultLanguage": "en-US" 
+  }
+}
