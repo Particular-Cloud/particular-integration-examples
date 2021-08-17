@@ -1,0 +1,48 @@
+{
+    "interactionModel": {
+      "languageModel": {
+        "invocationName": "hello world",
+        "intents": [
+          {
+            "name": "AMAZON.CancelIntent",
+            "samples": []
+          },
+          {
+            "name": "AMAZON.HelpIntent",
+            "samples": []
+          },
+          {
+            "name": "AMAZON.StopIntent",
+            "samples": []
+          },
+          {
+            "name": "HelloWorldIntent",
+            "slots": [],
+            "samples": [
+              "hello",
+              "wie geht es dir",
+              "sag hi",
+              "sag hi welt",
+              "hi",
+              "hallo",
+              "sag hallo",
+              "sag hallo welt",
+              "guten tag",
+              "sag guten tag",
+              "sag guten tag welt"
+            ]
+          },
+          {
+            "name": "AMAZON.NavigateHomeIntent",
+            "samples": []
+          },
+          {
+            "name": "AMAZON.FallbackIntent",
+            "samples": []
+          }
+        ],
+        "types": []
+      }
+    },
+    "version": "1"
+  }

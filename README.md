@@ -10,7 +10,9 @@ Please find the Particular.Cloud documentation on [particular.cloud/documentatio
 
 ## Integrations
 
-### create-react-app
+- [Amazon Alexa](/amazon-alexa)
+- [create-react-app](/create-react-app)
+- [Express](/simple-express)
 
 ## VS Code extension
 

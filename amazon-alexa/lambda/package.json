@@ -1,0 +1,35 @@
+{
+  "name": "amazon-alexa",
+  "version": "1.2.0",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "texts": "particular.cloud texts"
+  },
+  "dependencies": {
+    "@particular.cloud/i18n-js": "^0.4.6",
+    "ask-sdk-core": "^2.7.0",
+    "ask-sdk-model": "^1.19.0",
+    "aws-sdk": "^2.326.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-wesbos": "^1.0.1",
+    "eslint-plugin-html": "^6.1.2",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "particular.cloud": "^0.0.14",
+    "prettier": "^2.3.2"
+  },
+  "particular": {
+    "devToken": "particular.public-61178dac190a6400150e40d5",
+    "defaultLanguage": "en-US"
+  }
+}
