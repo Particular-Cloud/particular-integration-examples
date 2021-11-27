@@ -35,7 +35,7 @@ We will set it up in a moment!
 
 ## Create a project
 
-But first, let's head over to [Particular.Cloud](https://particular.cloud/) to create our first project! [Create an account](https://particlar.cloud/auth/signup) or [login into your excisting account](https://particlar.cloud/auth/login). 
+But first, let's head over to [Particular.Cloud](https://particular.cloud/) to create our first project! [Create an account](https://particular.cloud/auth/signup) or [login into your excisting account](https://particular.cloud/auth/login). 
 
 <img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/create-project.png" alt="Create project on Particular.Cloud" width="400" style="border-radius: 0.375rem;">
 
