@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "name": "remix-app-template",
+  "description": "",
+  "license": "",
+  "scripts": {
+    "build": "remix build",
+    "dev": "remix dev",
+    "postinstall": "remix setup node && particular.cloud texts",
+    "start": "remix-serve build"
+  },
+  "dependencies": {
+    "@particular.cloud/i18n-react": "^0.5.3",
+    "@remix-run/react": "^1.0.6",
+    "@remix-run/serve": "^1.0.6",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "remix": "^1.0.6"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^1.0.6",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
+    "particular.cloud": "^0.1.4",
+    "typescript": "^4.1.2"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "sideEffects": false,
+  "particular": {
+    "token": "particular.public-61a1d4a8c5fd7d5b9d4fd48b",
+    "defaultLanguage": "en-US"
+  }
+}
