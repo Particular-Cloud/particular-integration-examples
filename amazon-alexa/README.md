@@ -14,17 +14,13 @@ Download your new skill project to your local machine.
 
 Create a project on [Particular.Cloud](https://particular.cloud/) and add your first language to it!
 
-Make sure to create one or two tests key value pairs to test your app.
+Make sure to create a few texts to test your project so you can test your application.
 
-## Application Token
+## Application token
 
-Generate an app (read-only) token on [Particular.Cloud](https://particular.cloud/). 
+Navigate to the settings page of your project and generate a read-only token for your project. Find more information about how to generate a token in the [developer documentation](https://particular.cloud/documentation/developers).
 
-The app token is used by our cli npm package to automate your development workflow.
-
-Find more information about how to generate a token at the [developer documentation](https://particular.cloud/documentation/developers).
-
-*Note:* Make sure to use a read-only token if you want to commit it publicly to your source control. Write-access tokens should be treated as secrets!
+*Note:* Make sure you are creating a *read-only* token and not a *write-access* token! You can commit your read-only tokens to public repositories and to your client-side applications without fear.
 
 ## Development configuration
 
@@ -83,23 +79,25 @@ yarn add -D particular.cloud
 
 ## Load your texts during build time
 
-Add the following to your package.json scripts:
+Run `npx particular.cloud texts` to load your texts from Particular.Cloud into your node_modules folder.
+
+Navigate to `node_modules/@particular.cloud/texts/dist/index.js` to enjoy a sneak peak of the loaded texts.
+
+Let's automate this process by adding the following to your `package.json` file:
 
 ```json
   "scripts": {
-    "texts": "particular.cloud texts"
+    "postinstall": "particular.cloud texts"
   }
 ```
 
-Run it! 🚀
+*Note:* The cli now runs as a postinstall script. If you deploy your code, the cli should be executed automatically on `npm i`. In case your deployment process does not install devDependencies, make sure to install `particular.cloud` as a dependency instead. You can also use npx instead during your build process.
 
-```bash
-npm run texts
+```json
+  "scripts": {
+    "postinstall": "npx particular.cloud texts"
+  }
 ```
-
-This will load your texts from Particular.Cloud into your node_modules folder.
-
-*Note:* The cli runs as a postinstall script. If you deploy your code, the cli should be executed automatically on `npm i`. This ensures you have your texts loaded during build time of your [AWS Lambda](https://aws.amazon.com/lambda/) function.
 
 ## Use the t function call
 
