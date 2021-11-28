@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@particular.cloud/i18n-react": "^0.5.6",
+    "@particular.cloud/i18n-react": "^0.5.8",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
@@ -55,7 +55,7 @@
     "prettier": "^2.3.2"
   },
   "particular": {
-    "token": "particular.public-611568b7042fbc0015ea9b90",
+    "token": "particular.public-61a3206399f9c0318fd82381",
     "defaultLanguage": "en-US"
   }
 }

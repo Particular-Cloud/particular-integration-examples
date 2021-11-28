@@ -57,6 +57,32 @@
   margin-bottom: 6rem;
 }
 
+.App-button {
+  background-color: #967BB6;
+  color: #fff;
+  border: 1px solid #805FA7;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.App-button:hover {
+  background-color: #A58EC1;
+}
+
+.App-button:active {
+  background-color: #A58EC1;
+  box-shadow: #674b89 0 1px 0 inset;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

@@ -1,62 +1,118 @@
 ![Particular.Cloud](https://s3-us-west-1.amazonaws.com/particular.cloud/logo.png)
 
-# Create-React-App Integration
+# create-react-app Integration
 
-Integrate [Particular.Cloud](https://particular.cloud/) into your create-react-app project.
+Localize your create-react-app application with [Particular.Cloud](https://particular.cloud/).
+
+## Run create-react-app
+
+Let's start off by creating a new React application. Open up a terminal and run the following command:
+
+```sh
+npx create-react-app my-app
+cd my-app
+npm start
+```
+
+Awesome! Our application is now running on [http://localhost:3000](http://localhost:3000)! 🚀
+
+## Optional: VS Code extension
+
+If you are using VS Code, get yourself the Particular.Cloud [VS Code extension](https://marketplace.visualstudio.com/items?itemName=particular-cloud.particular-cloud) to add some magic to your development workflow!
+
+We will set it up in a moment!
 
 ## Create a project
 
-Create a project on [Particular.Cloud](https://particular.cloud/) and add your first language to it!
+But first, let's head over to [Particular.Cloud](https://particular.cloud/) to create our first project! [Create an account](https://particular.cloud/auth/signup) or [login into your excisting account](https://particular.cloud/auth/login). 
 
-Make sure to create a few texts to test your project so you can test your application.
+<img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/create-project.png" alt="Create project on Particular.Cloud" width="400" style="border-radius: 0.375rem;">
 
-## Application token
+Navigate to the dashboard and create a new project. 😎
 
-Navigate to the settings page of your project and generate a read-only token for your project. Find more information about how to generate a token in the [developer documentation](https://particular.cloud/documentation/developers).
+<img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/create-react-app/add-languages.png" alt="Add languages on Particular.Cloud" width="400" style="border-radius: 0.375rem;">
 
-*Note:* Make sure you are creating a *read-only* token and not a *write-access* token! You can commit your read-only tokens to public repositories and to your client-side applications without fear.
+Next, let's add some languages to our newly-created project!
+
+<img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/create-react-app/create-text.png" alt="Create text on Particular.Cloud" width="400" style="border-radius: 0.375rem;">
+
+Make sure to also create a few texts. Click on the `View Texts` button for one of your languages. You can also start translating the texts to other languages already.
+
+<img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/create-react-app/texts.png" alt="Texts list on Particular.Cloud" width="800" style="border-radius: 0.375rem;">
+
+Awesome! 🥳 We are all set!
 
 ## Development configuration
 
-Copy the app token to your clipboard and add the following to your package.json:
+Now let's create some tokens on Particular.Cloud. Tokens connect your applications to Particular.Cloud. 
+
+Particular.Cloud differentiates between read-only and write-access tokens:
+
+- Read-only tokens can be added to the `package.json` file and are used by our CLI tool to authenticate with Particular.Cloud. Additionally, your create-react-app project can use a read-only token to connect to Particular.Cloud (optional).
+- Write-access tokens should be treated as secrets and added to a hidden `.particularrc.json` file. Our VS Code extension uses this token to authenticate with Particular.Cloud. Write-access token enable text creation right from VS Code! How neat!
+
+### Optional: Write-access token
+
+Write-access token enable the creation of new texts right from your VS Code editor (using the Particular.Cloud extension). They are a great way to speed up your localization process. Refactoring applications to integrate i18n was never easier!
+
+> Write-access token have write-access to your Particular.Cloud project. You shoulder **never** commit your write-access token to a public repository or share it with anyone.
+
+**Agreed?** Great!
+
+Let's add a `.particularrc.json` file to our project root folder:
 
 ```json
-  "particular": {
-    "devToken": "<app_token>",
+  {
+    "token": "<write-access-token>",
     "defaultLanguage": "en-US"
   }
 ```
 
-## VS Code extension
-
-Get the [VS Code extension](https://marketplace.visualstudio.com/items?itemName=particular-cloud.particular-cloud) to add some magic to your development workflow!
-
-### Optional
-
-If you want to create new texts right from your VS Code editor, create a dev (write-access) token. 
-
-Hide your secret write-access token by adding the following to your `.gitignore` file:
+**IMPORTANT ❗:** Hide your secret write-access token by adding the following to your `.gitignore` file:
 
 ```bash
 # hide write-access token
 .particularrc.json
 ```
 
-Add a `.particularrc.json` file to your project root and add the following to your `.particularrc.json` file:
+Next, go back to your browser window and navigate to the settings page of your [Partiuclar.Cloud](https://particular.cloud) project and create a write-access token.
+
+[![Create write-access token on Particular.Cloud](https://s3.us-west-1.amazonaws.com/particular.cloud/thumbnail-create-write-acces-token.png)](https://vimeo.com/650518749 "Create write-access token on Particular.Cloud - Click to Watch!")
+
+Find more information about how to create tokens in the [developer documentation](https://particular.cloud/documentation/developers).
+
+Copied the token to your clipboard? Awesome! Let's replace `<write-access-token>` in the `.particularrc.json` file with your write-access token.
+
+And your VS Code extension is ready to go! 🚀
+
+
+### Read-only token
+
+Read-only token are used by our application to authenticate with Particular.Cloud. Additionally, our CLI tool uses this token to fetch texts from Particular.Cloud.
+
+Navigate to the settings page of your project and create a read-only token. Find more information about how to create a token in the [developer documentation](https://particular.cloud/documentation/developers).
+
+*Note:* You can commit your **read-only** tokens to public repositories and to your client-side applications without fear.
+
+Add the following to your package.json in `my-app/`:
 
 ```json
   "particular": {
-    "devToken": "<dev_token>",
+    "token": "<read-only-token>",
     "defaultLanguage": "en-US"
   }
 ```
+
+Navigate back to your browser window and copy the read-only token to your clipboard.
+
+Awesome! Let's replace `<read-only-token>` with the token from our clipboard. And our CLI tool is ready to go! 🚀
 
 ## Install dependencies
 
 ### npm
 
 ```bash
-# install the react i18n sdk
+# install the React i18n sdk
 npm i @particular.cloud/i18n-react
 # install the command-line interface (cli)
 npm i -D particular.cloud
@@ -65,7 +121,7 @@ npm i -D particular.cloud
 ### yarn
 
 ```bash
-# install the react i18n sdk
+# install the React i18n sdk
 yarn add @particular.cloud/i18n-react
 # install the command-line interface (cli)
 yarn add -D particular.cloud
@@ -73,11 +129,11 @@ yarn add -D particular.cloud
 
 ## Load your texts during build time
 
-Run `npx particular.cloud texts` to load your texts from Particular.Cloud into your node_modules folder.
+Run `npx particular.cloud texts` to load your texts from Particular.Cloud into your `node_modules` folder.
 
 Navigate to `node_modules/@particular.cloud/texts/dist/index.js` to enjoy a sneak peak of the loaded texts.
 
-Let's automate this process by adding the following to your `package.json` file:
+Let's automate this process by adding a postinstall command to the `package.json` file:
 
 ```json
   "scripts": {
@@ -85,7 +141,7 @@ Let's automate this process by adding the following to your `package.json` file:
   }
 ```
 
-*Note:* The cli now runs as a postinstall script. If you deploy your code, the cli should be executed automatically on `npm i`. In case your deployment process does not install devDependencies, make sure to install `particular.cloud` as a dependency instead. You can also use npx instead during your build process.
+*Note:* The cli now runs as a postinstall script. If you deploy your code, the cli should be executed automatically on `npm i`. In case your deployment process does not install devDependencies, make sure to install `particular.cloud` as a dependency. You can also use npx instead during your build process.
 
 ```json
   "scripts": {
@@ -93,29 +149,31 @@ Let's automate this process by adding the following to your `package.json` file:
   }
 ```
 
-## Configure i18n-react
+## Integrate i18n-react into create-react-app
 
-Use the I18nProvider context provider to configure your Particular.Cloud integration.
+Open `src/index.jsx` in your code editor and import `I18nProvider` from `@particular.cloud/i18n-react`:
 
-```js
+```jsx
 import { I18nProvider } from '@particular/i18n-react';
 ```
 
-Make sure to use the I18nProvider at the root of your project.
+The `I18nProvider` context provider is used to configure the i18n-react library. For that, let's wrap our App component with the I18nProvider:
 
 ```jsx
     <React.StrictMode>
         <I18nProvider config={{ defaultLanguage: 'en-US' }}>
             <App />
         </I18nProvider>
-    </React.StrictMode>,
+    </React.StrictMode>
 ```
 
-Learn about the extensive configuration options on the Particular.Cloud [i18n-js developer documentation](https://particular.cloud/documentation/developers/js/init).
+You can pass I18nProvider an object with configuration options. Learn about the extensive configuration options on the Particular.Cloud [i18n-js developer documentation](https://particular.cloud/documentation/developers/js/init).
+
+For now, we just specify the default language for our users.
 
 ## Use the useText hook
 
-Use the useText hook to access your localized texts.
+Use the useText hook to access your localized texts. Open `src/App.jsx` in your code editor and import the `useText` hook from `@particular.cloud/i18n-react`:
 
 ```js
 import { useText } from '@particular/i18n-react';
@@ -125,6 +183,43 @@ import { useText } from '@particular/i18n-react';
  <h1 className="App-content">{useText({ key: 'lpTitle' })}</h1>
 ```
 
-*Note:* Since we specified a default language in the configuration, the useText hook will return the text in the default language.
-
 Awesome! You integrated Particular.Cloud into your create-react-app project! 🎉
+
+## Change language
+
+You can change the language by altering the `defaultLanguage` passed down to the `I18nProvider` in `src/index.jsx`.
+
+Alternatively, you can also change the default language through the `i18n` object. Let's do that!
+
+Open `src/App.jsx` again and alter the import:
+
+```jsx
+import { useText, useLanguage, i18n } from '@particular/i18n-react';
+```
+
+Now let's access the current language by using the `useLanguage` hook:
+
+```jsx
+const { langCodeOrLocale } = useLanguage();
+```
+
+We use the `langCodeOrLocale` variable implement a simple toggle button:
+
+```jsx
+<button
+    className="App-button"
+    type="button"
+    onClick={() =>
+        langCodeOrLocale === 'en-US'
+            ? i18n.setDefaultLanguage('de-DE')
+            : i18n.setDefaultLanguage('en-US')
+    }
+>
+    {useText({ key: 'lpChangeLanguageBtn' })}
+</button>
+```
+
+And we are all set! 🚀
+
+Run the changes locally and hit that button. 🎉  Remember that we fetched our localized strings from Particular.Cloud into our `node_modules` folder by running `npx particular.cloud texts`? See how lightning fast the languages changes as we query the strings locally from your `node_modules` folder!
+
