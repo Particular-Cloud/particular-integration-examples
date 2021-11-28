@@ -190,7 +190,9 @@ Now we have access to our I18n utilities accross all components! 🚀
 
 ### Accept-Language header
 
-We add a loader function to root.tsx to pass the `Accept-Language` header to the `I18nProvider`.
+The accept-language header is great way to determine the preferred language of a user. All modern browsers attach the header to any request by default based on the user settings.
+
+We add a loader function to root.tsx to pass the `Accept-Language` header to our `I18nProvider`.
 
 ```tsx
 interface RootRouteData {
@@ -323,6 +325,114 @@ export let meta: MetaFunction = () => {
 ```
 
 And we are all set! 🚀
+
+### Enable CDN caching through a URL query parameter
+
+Remix is all about the network tab - reducing the load transferred to the client - and Particular.Cloud provides all the means to do so! Let's navigate to `app/root.tsx` one more time to alter our loader function.
+
+So far, we use the `Accept-Language` header to determine the language of the user. We take this a step further. Let's add a URL search parameter `locale`, which explicitly sets the language. In case, it is not set, we fallback to the `Accept-Language` header.
+
+Also, we make sure that the URL search parameter is removed for our default language.
+
+> Remix does not provie an API to programatically alter the routes of an application (yet). That's why URL params are hard to implement right now. But URL search parameters are good enough!
+
+
+Let's import the following from `@particular.cloud/i18n-react`:
+
+```tsx
+import { I18nProvider, useLanguage, languages, i18n } from '@particular.cloud/i18n-react';
+```
+
+Next we add helper functions to our `root.tsx` file:
+
+```tsx
+/**
+ * Helper function to decide if we accept a locale from the search params
+ */
+const isLocaleSupported = (locale: string) => {
+  if(!locale) {
+    return false;
+  }
+
+  const language = languages.find(l => l.language.locale === locale);
+  // in development we support all languages
+  if(process.env.NODE_ENV === 'development') {
+    return !!language
+  }
+
+  // on production, we only want to support languages set to active on Particular.Cloud
+  return language?.isActive;
+}
+
+/**
+ * Helper function to find the best working language for a language code or locale
+ */
+const findLanguageFor = (langCodeOrLocale: string) => {
+  // finde language for locale based on the project languages loaded into @particular.cloud/texts
+  let language = languages.find(l => l.language.locale === langCodeOrLocale);
+  if(!language) {
+    // find default language for language code (as specified on Particular.Cloud)
+    languages.find(l => l.language.langCode === langCodeOrLocale && l.isDefault);
+  }
+
+  if(!language) {
+    return undefined;
+  }
+
+  // on production, we only support languages set to active on Particular.Cloud
+  if(process.env.NODE_ENV === 'production' && !language.isActive) {
+    return undefined
+  }
+
+  return language;
+}
+```
+
+Awesome! Now let's adapt the loader as described before:
+
+```tsx
+/**
+ * Get Accept-Language header from request
+ * and locale param from URL search params
+ * If locale is set and supported, use it as the language
+ * Else use best fit from Accept-Language or fallback to defaultLanguage
+ * Redirect to URL with locale param to enable caching on CDNs
+ */
+export const loader: LoaderFunction = ({ request }): RootRouteData | Response => {
+  const acceptLanguage = request.headers.get('Accept-Language') || '*';
+  const defaultLanguage = 'en-US';
+
+  const url = new URL(request.url);
+  const locale = url.searchParams.get('locale') || '';
+
+  if(isLocaleSupported(locale)) {
+    i18n.init({ acceptLanguage: locale, defaultLanguage });
+    const bestFittingLocale = i18n.getLangCodeOrLocale();
+    return {
+      acceptLanguage: locale,
+      defaultLanguage,
+    };
+  }
+
+  // init i18n to find the best fitting language for the user
+  i18n.init({ acceptLanguage, defaultLanguage });
+  const bestFittingLocale = i18n.getLangCodeOrLocale();
+  if(bestFittingLocale) {
+    const language = findLanguageFor(bestFittingLocale);
+    if(language && language.language.locale !== defaultLanguage) {  
+      const url = new URL(request.url);
+      url.searchParams.set('locale', language.language.locale);
+      return redirect(url.toString());
+    }
+  }
+
+  return {
+    acceptLanguage, defaultLanguage,
+  }
+};
+```
+
+Yes, that's a bit more boilerplate code and also harder to grasp. But now we have a working CDN caching solution! 🚀
 
 ## Next steps
 

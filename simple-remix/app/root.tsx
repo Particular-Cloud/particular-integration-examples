@@ -7,10 +7,11 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
-  useLoaderData
+  useLoaderData,
+  redirect
 } from "remix";
 import type { LinksFunction, LoaderFunction } from "remix";
-import { I18nProvider, useLanguage } from '@particular.cloud/i18n-react'
+import { I18nProvider, useLanguage, languages, i18n } from '@particular.cloud/i18n-react';
 
 import globalStylesUrl from "~/styles/global.css";
 import darkStylesUrl from "~/styles/dark.css";
@@ -32,14 +33,87 @@ interface RootRouteData {
   acceptLanguage: string;
 }
 
-export const loader: LoaderFunction = async ({ request }): Promise<RootRouteData> => {
+/**
+ * Helper function to decide if we accept a locale from the search params
+ */
+const isLocaleSupported = (locale: string) => {
+  if(!locale) {
+    return false;
+  }
+
+  const language = languages.find(l => l.language.locale === locale);
+  // in development we support all languages
+  if(process.env.NODE_ENV === 'development') {
+    return !!language
+  }
+
+  // on production, we only want to support languages set to active on Particular.Cloud
+  return language?.isActive;
+}
+
+/**
+ * Helper function to find the best working language for a language code or locale
+ */
+const findLanguageFor = (langCodeOrLocale: string) => {
+  // finde language for locale
+  let language = languages.find(l => l.language.locale === langCodeOrLocale);
+  if(!language) {
+    // find default language for language code
+    languages.find(l => l.language.langCode === langCodeOrLocale && l.isDefault);
+  }
+
+  if(!language) {
+    return undefined;
+  }
+
+  if(process.env.NODE_ENV === 'production' && !language.isActive) {
+    return undefined
+  }
+
+  return language;
+}
+
+/**
+ * Get Accept-Language header from request
+ * and locale param from URL search params
+ * If locale is set and supported, use it as the language
+ * Else use best fit from Accept-Language or fallback to defaultLanguage
+ * Redirect to URL with locale param to enable caching on CDNs
+ */
+export const loader: LoaderFunction = ({ request }): RootRouteData | Response => {
   const acceptLanguage = request.headers.get('Accept-Language') || '*';
   const defaultLanguage = 'en-US';
 
+  const url = new URL(request.url);
+  const locale = url.searchParams.get('locale') || '';
+
+  console.log("locale: ", locale);
+  console.log("isLocaleSupported", locale, isLocaleSupported(locale))
+  if(isLocaleSupported(locale)) {
+    i18n.init({ acceptLanguage: locale, defaultLanguage });
+    const bestFittingLocale = i18n.getLangCodeOrLocale();
+    console.log("bestFittingLocale", bestFittingLocale)
+    return {
+      acceptLanguage: locale,
+      defaultLanguage,
+    };
+  }
+
+  // init i18n to find the best fitting language for the user
+  i18n.init({ acceptLanguage, defaultLanguage });
+  const bestFittingLocale = i18n.getLangCodeOrLocale();
+  if(bestFittingLocale) {
+    const language = findLanguageFor(bestFittingLocale);
+    if(language && language.language.locale !== defaultLanguage) {  
+      const url = new URL(request.url);
+      url.searchParams.set('locale', language.language.locale);
+      return redirect(url.toString());
+    }
+  }
+
   return {
-    acceptLanguage,
-    defaultLanguage,
-  };
+    acceptLanguage, defaultLanguage,
+  }
 };
 
 // https://remix.run/api/conventions#default-export
