@@ -9,7 +9,7 @@
     "texts": "particular.cloud texts"
   },
   "dependencies": {
-    "@particular.cloud/i18n-js": "^0.4.7",
+    "@particular.cloud/i18n-js": "^0.5.6",
     "express": "^4.17.1"
   },
   "devDependencies": {
@@ -24,11 +24,11 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "particular.cloud": "^0.0.5",
+    "particular.cloud": "^0.1.9",
     "prettier": "^2.3.2"
   },
   "particular": {
     "devToken": "particular.public-6117ec9d190a6400150e40d7",
-    "defaultLanguage": "en-US" 
+    "defaultLanguage": "en-US"
   }
 }

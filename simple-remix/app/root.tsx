@@ -87,12 +87,7 @@ export const loader: LoaderFunction = ({ request }): RootRouteData | Response =>
   const url = new URL(request.url);
   const locale = url.searchParams.get('locale') || '';
 
-  console.log("locale: ", locale);
-  console.log("isLocaleSupported", locale, isLocaleSupported(locale))
   if(isLocaleSupported(locale)) {
-    i18n.init({ acceptLanguage: locale, defaultLanguage });
-    const bestFittingLocale = i18n.getLangCodeOrLocale();
-    console.log("bestFittingLocale", bestFittingLocale)
     return {
       acceptLanguage: locale,
       defaultLanguage,

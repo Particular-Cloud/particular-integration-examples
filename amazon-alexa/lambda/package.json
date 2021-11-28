@@ -25,7 +25,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "particular.cloud": "^0.1.8",
+    "particular.cloud": "^0.1.9",
     "prettier": "^2.3.2"
   },
   "particular": {
