@@ -5,13 +5,13 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "texts": "particular.cloud texts"
+    "postinstall": "particular.cloud texts"
   },
   "dependencies": {
-    "@particular.cloud/i18n-js": "^0.4.6",
-    "ask-sdk-core": "^2.7.0",
-    "ask-sdk-model": "^1.19.0",
-    "aws-sdk": "^2.326.0"
+    "@particular.cloud/i18n-js": "^0.5.6",
+    "ask-sdk-core": "^2.11.0",
+    "ask-sdk-model": "^1.37.1",
+    "aws-sdk": "^2.1037.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
@@ -25,11 +25,11 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "particular.cloud": "^0.0.14",
+    "particular.cloud": "^0.1.8",
     "prettier": "^2.3.2"
   },
   "particular": {
-    "devToken": "particular.public-61178dac190a6400150e40d5",
+    "token": "particular.public-61a2fdde99f9c0318fd8198f",
     "defaultLanguage": "en-US"
   }
 }

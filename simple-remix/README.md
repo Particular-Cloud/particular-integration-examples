@@ -2,7 +2,7 @@
 
 # Simple Remix Integration
 
-Integrate [Particular.Cloud](https://particular.cloud/) into your Remix application.
+Localize your Remix application with [Particular.Cloud](https://particular.cloud/).
 
 ## Create-remix
 
@@ -144,7 +144,7 @@ Run `npx particular.cloud texts` to load your texts from Particular.Cloud into y
 
 Navigate to `node_modules/@particular.cloud/texts/dist/index.js` to enjoy a sneak peak of the loaded texts.
 
-Let's automate this process by adding our postinstall command to the `package.json` file:
+Let's automate this process by adding a postinstall command to the `package.json` file:
 
 ```json
   "scripts": {

@@ -2,7 +2,7 @@
 
 # Amazon Alexa Integration
 
-Integrating [Particular.Cloud](https://particular.cloud/) into your Amazon Alexa project is super easy. 
+Localize your Amazon Alexa application with [Particular.Cloud](https://particular.cloud/).
 
 ## Amazon Alexa Skill
 
@@ -10,52 +10,96 @@ If you don't have an Amazon Alexa Skill created yet, create a new Skill either t
 
 Download your new skill project to your local machine.
 
+## Optional: VS Code extension
+
+If you are using VS Code, get yourself the Particular.Cloud [VS Code extension](https://marketplace.visualstudio.com/items?itemName=particular-cloud.particular-cloud) to add some magic to your development workflow!
+
+We will set it up in a moment!
+
 ## Create a project
 
-Create a project on [Particular.Cloud](https://particular.cloud/) and add your first language to it!
+But first, let's head over to [Particular.Cloud](https://particular.cloud/) to create our first project! [Create an account](https://particular.cloud/auth/signup) or [login into your excisting account](https://particular.cloud/auth/login). 
 
-Make sure to create a few texts to test your project so you can test your application.
+<img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/create-project.png" alt="Create project on Particular.Cloud" width="400" style="border-radius: 0.375rem;">
 
-## Application token
+Navigate to the dashboard and create a new project. 😎
 
-Navigate to the settings page of your project and generate a read-only token for your project. Find more information about how to generate a token in the [developer documentation](https://particular.cloud/documentation/developers).
+<img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/amazon-alexa/add-languages.png" alt="Add languages on Particular.Cloud" width="400" style="border-radius: 0.375rem;">
 
-*Note:* Make sure you are creating a *read-only* token and not a *write-access* token! You can commit your read-only tokens to public repositories and to your client-side applications without fear.
+Next, let's add some languages to our newly-created project!
+
+<img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/amazon-alexa/create-text.png" alt="Create text on Particular.Cloud" width="400" style="border-radius: 0.375rem;">
+
+Make sure to also create a few texts. Click on the `View Texts` button for one of your languages. You can also start translating the texts to other languages already.
+
+<img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/amazon-alexa/texts.png" alt="Texts list on Particular.Cloud" width="800" style="border-radius: 0.375rem;">
+
+Awesome! 🥳 We are all set!
 
 ## Development configuration
 
-Copy the app token to your clipboard and add the following to your package.json:
+Now let's create some tokens on Particular.Cloud. Tokens connect your applications to Particular.Cloud. 
+
+Particular.Cloud differentiates between read-only and write-access tokens:
+
+- Read-only tokens can be added to the `package.json` file and are used by our CLI tool to authenticate with Particular.Cloud. Additionally, your Alexa application can use the read-only token to connect to Particular.Cloud (optional).
+- Write-access tokens should be treated as secrets and added to a hidden `.particularrc.json` file. Our VS Code extension uses this token to authenticate with Particular.Cloud. Write-access token enable text creation right from VS Code! How neat!
+
+### Optional: Write-access token
+
+Write-access token enable the creation of new texts right from your VS Code editor (using the Particular.Cloud extension). They are a great way to speed up your localization process. Refactoring applications to integrate i18n was never easier!
+
+> Write-access token have write-access to your Particular.Cloud project. You shoulder **never** commit your write-access token to a public repository or share it with anyone.
+
+**Agreed?** Great!
+
+Let's add a `.particularrc.json` file to our project root folder:
 
 ```json
-  "particular": {
-    "devToken": "<app_token>",
+  {
+    "token": "<write-access-token>",
     "defaultLanguage": "en-US"
   }
 ```
 
-## VS Code extension
-
-Get the [VS Code extension](https://marketplace.visualstudio.com/items?itemName=particular-cloud.particular-cloud) to add some magic to your development workflow!
-
-### Optional
-
-If you want to create new texts right from your VS Code editor, create a dev (write-access) token. 
-
-Hide your secret write-access token by adding the following to your `.gitignore` file:
+**IMPORTANT ❗:** Hide your secret write-access token by adding the following to your `.gitignore` file:
 
 ```bash
 # hide write-access token
 .particularrc.json
 ```
 
-Add a `.particularrc.json` file to your project root and add the following to your `.particularrc.json` file:
+Next, go back to your browser window and navigate to the settings page of your [Partiuclar.Cloud](https://particular.cloud) project and create a write-access token.
+
+[![Create write-access token on Particular.Cloud](https://s3.us-west-1.amazonaws.com/particular.cloud/thumbnail-create-write-acces-token.png)](https://vimeo.com/650518749 "Create write-access token on Particular.Cloud - Click to Watch!")
+
+Find more information about how to create tokens in the [developer documentation](https://particular.cloud/documentation/developers).
+
+Copied the token to your clipboard? Awesome! Let's replace `<write-access-token>` in the `.particularrc.json` file with your write-access token.
+
+And your VS Code extension is ready to go! 🚀
+
+
+### Read-only token
+
+Read-only token are used by our application to authenticate with Particular.Cloud. Additionally, our CLI tool uses this token to fetch texts from Particular.Cloud.
+
+Navigate to the settings page of your project and create a read-only token. Find more information about how to create a token in the [developer documentation](https://particular.cloud/documentation/developers).
+
+*Note:* You can commit your **read-only** tokens to public repositories and to your client-side applications without fear.
+
+Add the following to your package.json in `lambda/`:
 
 ```json
   "particular": {
-    "devToken": "<dev_token>",
+    "token": "<read-only-token>",
     "defaultLanguage": "en-US"
   }
 ```
+
+Navigate back to your browser window and copy the read-only token to your clipboard.
+
+Awesome! Let's replace `<read-only-token>` with the token from our clipboard. And our CLI tool is ready to go! 🚀
 
 ## Install dependencies
 
@@ -79,11 +123,11 @@ yarn add -D particular.cloud
 
 ## Load your texts during build time
 
-Run `npx particular.cloud texts` to load your texts from Particular.Cloud into your node_modules folder.
+Run `npx particular.cloud texts` to load your texts from Particular.Cloud into your `node_modules` folder.
 
 Navigate to `node_modules/@particular.cloud/texts/dist/index.js` to enjoy a sneak peak of the loaded texts.
 
-Let's automate this process by adding the following to your `package.json` file:
+Let's automate this process by adding a postinstall command to the `package.json` file:
 
 ```json
   "scripts": {
@@ -91,7 +135,7 @@ Let's automate this process by adding the following to your `package.json` file:
   }
 ```
 
-*Note:* The cli now runs as a postinstall script. If you deploy your code, the cli should be executed automatically on `npm i`. In case your deployment process does not install devDependencies, make sure to install `particular.cloud` as a dependency instead. You can also use npx instead during your build process.
+*Note:* The cli now runs as a postinstall script. If you deploy your code, the cli should be executed automatically on `npm i`. In case your deployment process does not install devDependencies, make sure to install `particular.cloud` as a dependency. You can also use npx instead during your build process.
 
 ```json
   "scripts": {
@@ -99,26 +143,37 @@ Let's automate this process by adding the following to your `package.json` file:
   }
 ```
 
-## Use the t function call
+## Integrate i18n-js into your Alexa application
 
-Use the t function call to access your localized texts.
+### Import i18n-js
+
+Open your `lambda/index.js` file and import `@particular.cloud/i18n-js`:
 
 ```js
-const { i18n } = require('@particular/i18n-js');
-
-// Note: we will optimize this code later to get rid of the language property
-const reply = i18n.t( { key: 'helloWorldReply', language: handlerInput.requestEnvelope.request.locale } );
+const { i18n } = require('@particular.cloud/i18n-js');
 ```
 
-Awesome! You integrated Particular.Cloud into your create-react-app project! 🎉
+### Configure i18n-js
 
-## Create a middleware to set the request language
-
-Parse the locale from the user request and pass it on to i18n-js.
+Next, we use the init function call to configure the Particular.Cloud integration.
 
 ```js
 const { i18n } = require('@particular/i18n-js');
 
+i18n.init();
+```
+
+We only have to do that once during server startup.
+
+Learn about the extensive configuration options in the [i18n-js documentation](https://particular.cloud/documentation/developers/js/init).
+
+### Create a middleware to set the request language
+
+Next, let's use the `request` object to set the language of the request. We can do this in a small custom middleware function.
+
+Parse the locale from the user request and pass it on to i18n-js:
+
+```js
 // a middleware function that will be called for every request
 const I18nMiddleware = {
     process(handlerInput) {
@@ -126,12 +181,13 @@ const I18nMiddleware = {
         console.log(`user request with locale ${locale}`);
 
         // specify the user's locale globally for all request handlers
-        i18n.setDefaultLanguage(locale);
+        i18n.setAcceptLanguage(locale);
+        i18n.setDefaultLanguage('en-US');
     },
 };
 ```
 
-Then make sure the middleware is executed before the requests.
+Then we make sure that the middleware is executed before we handle the request:
 
 ```js
 exports.handler = Alexa.SkillBuilders.custom()
@@ -151,23 +207,37 @@ exports.handler = Alexa.SkillBuilders.custom()
     .lambda();
 ```
 
-Now you can omit the language property from your t function calls! 😎
+### Use the t function call in your request handlers
+
+Remember that we loaded the texts from Particular.Cloud into our `node_modules` folder? Now we use the `t` function call to query for the localized texts:
 
 ```js
 const { i18n } = require('@particular/i18n-js');
 
-// language already set in the middleware
-const reply = i18n.t( { key: 'helloWorldReply' } );
+const LaunchRequestHandler = {
+    canHandle(handlerInput) {
+        return (
+            Alexa.getRequestType(handlerInput.requestEnvelope) ===
+            'LaunchRequest'
+        );
+    },
+    async handle(handlerInput) {
+        const speakOutput = i18n.t({ key: 'launchReply' });
+
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .reprompt(speakOutput)
+            .getResponse();
+    },
+};
 ```
 
-## Configure i18n-js
+Awesome! You integrated Particular.Cloud into your Amazon Alexa project! 🎉
 
-Use the init function call to configure your Particular.Cloud integration.
+## Next steps
 
-```js
-const { i18n } = require('@particular/i18n-js');
+### Refactor strings to use the useText hook
 
-i18n.init({ ... });
-```
+Use the VS Code extension to refactor strings to use the useText hook without leaving the editor.
 
-Learn about the extensive configuration options on the Particular.Cloud [i18n-js developer documentation](https://particular.cloud/documentation/developers/js/init).
+You can find a short video detailing the keyboard shortcuts here in the [VS Code documentation](https://particular.cloud/documentation/developers/vscode/creation).

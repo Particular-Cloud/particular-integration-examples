@@ -7,7 +7,7 @@ const Alexa = require('ask-sdk-core');
 const { i18n } = require('@particular.cloud/i18n-js');
 
 // setup i18n once on startup
-i18n.init({ token: 'particular.public-61178dac190a6400150e40d5' });
+i18n.init();
 
 // a middleware function that will be called for every request
 const I18nMiddleware = {
@@ -16,7 +16,8 @@ const I18nMiddleware = {
         console.log(`user request with locale ${locale}`);
 
         // specify the user's locale globally for all request handlers
-        i18n.setDefaultLanguage(locale);
+        i18n.setAcceptLanguage(locale);
+        i18n.setDefaultLanguage('en-US');
     },
 };
 
