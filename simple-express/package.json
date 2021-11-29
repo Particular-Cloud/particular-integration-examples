@@ -9,7 +9,7 @@
     "texts": "particular.cloud texts"
   },
   "dependencies": {
-    "@particular.cloud/i18n-js": "^0.5.6",
+    "@particular.cloud/i18n-js": "^0.5.7",
     "express": "^4.17.1"
   },
   "devDependencies": {
@@ -28,7 +28,7 @@
     "prettier": "^2.3.2"
   },
   "particular": {
-    "devToken": "particular.public-6117ec9d190a6400150e40d7",
+    "token": "particular.public-61a33e4c637a5ad3cc6a4e20",
     "defaultLanguage": "en-US"
   }
 }

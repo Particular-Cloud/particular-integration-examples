@@ -228,7 +228,7 @@ export default function App() {
 }
 ```
 
-Remember that we fetched our localized strings into from Particular.Cloud into our `node_modules` folder by running `npx particular.cloud texts`? Based on the `Accept-Language` header, i18n-react can now find the best match for the user! 😎
+Remember that we fetched our localized strings from Particular.Cloud into our `node_modules` folder by running `npx particular.cloud texts`? Based on the `Accept-Language` header, i18n-react can now find the best match for the user! 😎
 
 Let's localize our Remix application, shall we?
 
