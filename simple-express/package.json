@@ -9,7 +9,7 @@
     "texts": "particular.cloud texts"
   },
   "dependencies": {
-    "@particular.cloud/i18n-js": "^0.5.7",
+    "@particular.cloud/i18n-js": "^0.5.8",
     "express": "^4.17.1"
   },
   "devDependencies": {

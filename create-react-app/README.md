@@ -79,7 +79,7 @@ Next, go back to your browser window and navigate to the settings page of your [
 
 [![Create write-access token on Particular.Cloud](https://s3.us-west-1.amazonaws.com/particular.cloud/thumbnail-create-write-acces-token.png)](https://vimeo.com/650518749 "Create write-access token on Particular.Cloud - Click to Watch!")
 
-Find more information about how to create tokens in the [developer documentation](https://particular.cloud/documentation/developers).
+Find more information about how to create tokens in the [developer documentation](https://particular.cloud/documentation/developers/v1).
 
 Copied the token to your clipboard? Awesome! Let's replace `<write-access-token>` in the `.particularrc.json` file with your write-access token.
 
@@ -90,7 +90,7 @@ And your VS Code extension is ready to go! 🚀
 
 Read-only token are used by our application to authenticate with Particular.Cloud. Additionally, our CLI tool uses this token to fetch texts from Particular.Cloud.
 
-Navigate to the settings page of your project and create a read-only token. Find more information about how to create a token in the [developer documentation](https://particular.cloud/documentation/developers).
+Navigate to the settings page of your project and create a read-only token. Find more information about how to create a token in the [developer documentation](https://particular.cloud/documentation/developers/v1).
 
 *Note:* You can commit your **read-only** tokens to public repositories and to your client-side applications without fear.
 
@@ -167,7 +167,7 @@ The `I18nProvider` context provider is used to configure the i18n-react library.
     </React.StrictMode>
 ```
 
-You can pass I18nProvider an object with configuration options. Learn about the extensive configuration options on the Particular.Cloud [i18n-js developer documentation](https://particular.cloud/documentation/developers/js/init).
+You can pass I18nProvider an object with configuration options. Learn about the extensive configuration options on the Particular.Cloud [i18n-js developer documentation](https://particular.cloud/documentation/developers/v1/javascript-api#init).
 
 For now, we just specify the default language for our users.
 
@@ -223,3 +223,9 @@ And we are all set! 🚀
 
 Run the changes locally and hit that button. 🎉  Remember that we fetched our localized strings from Particular.Cloud into our `node_modules` folder by running `npx particular.cloud texts`? See how lightning fast the languages changes as we query the strings locally from your `node_modules` folder!
 
+## Next steps
+### Refactor strings to useText hook calls
+
+Use the VS Code extension to refactor strings to useText hook calls without leaving the editor. The strings are automatically saved to your Particular.Cloud project!
+
+You can find a short video detailing the keyboard shortcuts in the [VS Code documentation](https://particular.cloud/documentation/developers/v1/vscode#string-refactoring).

@@ -13,6 +13,8 @@ Please find the Particular.Cloud documentation on [particular.cloud/documentatio
 - [Amazon Alexa](/amazon-alexa)
 - [create-react-app](/create-react-app)
 - [Express](/simple-express)
+- [Jovo (i18n-js)](/simple-jovo)
+- [Jovo (i18next)](/jovo-i18next)
 - [Remix.run](/simple-remix)
 
 ## VS Code extension

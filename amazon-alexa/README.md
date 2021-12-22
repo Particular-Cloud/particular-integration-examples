@@ -73,7 +73,7 @@ Next, go back to your browser window and navigate to the settings page of your [
 
 [![Create write-access token on Particular.Cloud](https://s3.us-west-1.amazonaws.com/particular.cloud/thumbnail-create-write-acces-token.png)](https://vimeo.com/650518749 "Create write-access token on Particular.Cloud - Click to Watch!")
 
-Find more information about how to create tokens in the [developer documentation](https://particular.cloud/documentation/developers).
+Find more information about how to create tokens in the [developer documentation](https://particular.cloud/documentation/developers/v1).
 
 Copied the token to your clipboard? Awesome! Let's replace `<write-access-token>` in the `.particularrc.json` file with your write-access token.
 
@@ -84,7 +84,7 @@ And your VS Code extension is ready to go! 🚀
 
 Read-only token are used by our application to authenticate with Particular.Cloud. Additionally, our CLI tool uses this token to fetch texts from Particular.Cloud.
 
-Navigate to the settings page of your project and create a read-only token. Find more information about how to create a token in the [developer documentation](https://particular.cloud/documentation/developers).
+Navigate to the settings page of your project and create a read-only token. Find more information about how to create a token in the [developer documentation](https://particular.cloud/documentation/developers/v1).
 
 *Note:* You can commit your **read-only** tokens to public repositories and to your client-side applications without fear.
 
@@ -165,7 +165,7 @@ i18n.init();
 
 We only have to do that once during server startup.
 
-Learn about the extensive configuration options in the [i18n-js documentation](https://particular.cloud/documentation/developers/js/init).
+Learn about the extensive configuration options in the [i18n-js documentation](https://particular.cloud/documentation/developers/v1/javascript-api#init).
 
 ### Create a middleware to set the request language
 
@@ -236,8 +236,8 @@ Awesome! You integrated Particular.Cloud into your Amazon Alexa project! 🎉
 
 ## Next steps
 
-### Refactor strings to use the useText hook
+### Refactor strings to t function calls
 
-Use the VS Code extension to refactor strings to use the useText hook without leaving the editor.
+Use the VS Code extension to refactor strings to t function calls without leaving the editor. The strings are automatically saved to your Particular.Cloud project!
 
-You can find a short video detailing the keyboard shortcuts here in the [VS Code documentation](https://particular.cloud/documentation/developers/vscode/creation).
+You can find a short video detailing the keyboard shortcuts in the [VS Code documentation](https://particular.cloud/documentation/developers/v1/vscode#string-refactoring).

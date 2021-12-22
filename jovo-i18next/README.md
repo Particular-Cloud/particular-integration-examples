@@ -1,12 +1,16 @@
 ![Particular.Cloud](https://s3-us-west-1.amazonaws.com/particular.cloud/logo.png)
 
-# Simple Express Integration
+# Jovo Integration
 
-Localize your Node.js Express server application with [Particular.Cloud](https://particular.cloud/).
+Localize your voice applications with [Particular.Cloud](https://particular.cloud/).
 
-## Create a simple Express server
+## Jovo v4
 
-Let's create a simple express application. Follow the hello-world example in the [Express documentation](https://expressjs.com/en/starter/hello-world.html) to get up in running in a second!
+This demo application uses Jovo v4. You can follow the [getting started guide](https://www.jovo.tech/docs/getting-started) on the Jovo website to setup your hello-world application.
+
+Jovo comes with i18next built into the framework. In most cases, you want to use i18next together with Jovo. In this integration example, we learn how to integrate Particular.Cloud with i18next.
+
+If you want to use `@particular.cloud/i18n-js` instead of i18next, follow the [simple-jovo integration example](/simple-jovo).
 
 ## Optional: VS Code extension
 
@@ -22,15 +26,15 @@ But first, let's head over to [Particular.Cloud](https://particular.cloud/) to c
 
 Navigate to the dashboard and create a new project. 😎
 
-<img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/simple-express/add-languages.png" alt="Add languages on Particular.Cloud" width="400" style="border-radius: 0.375rem;">
+<img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/simple-jovo/add-languages.png" alt="Add languages on Particular.Cloud" width="400" style="border-radius: 0.375rem;">
 
 Next, let's add some languages to our newly-created project!
 
-<img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/simple-express/create-text.png" alt="Create text on Particular.Cloud" width="400" style="border-radius: 0.375rem;">
+<img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/simple-jovo/create-text.png" alt="Create text on Particular.Cloud" width="400" style="border-radius: 0.375rem;">
 
 Make sure to also create a few texts. Click on the `View Texts` button for one of your languages. You can also start translating the texts to other languages already.
 
-<img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/simple-express/texts.png" alt="Texts list on Particular.Cloud" width="800" style="border-radius: 0.375rem;">
+<img src="https://s3.us-west-1.amazonaws.com/particular.cloud/particular-integration-examples/simple-jovo/texts.png" alt="Texts list on Particular.Cloud" width="800" style="border-radius: 0.375rem;">
 
 Awesome! 🥳 We are all set!
 
@@ -40,7 +44,7 @@ Now let's create some tokens on Particular.Cloud. Tokens connect your applicatio
 
 Particular.Cloud differentiates between read-only and write-access tokens:
 
-- Read-only tokens can be added to the `package.json` file and are used by our CLI tool to authenticate with Particular.Cloud. Additionally, your Express application uses a read-only token to connect to Particular.Cloud.
+- Read-only tokens can be added to the `package.json` file and are used by our CLI tool to authenticate with Particular.Cloud.
 - Write-access tokens should be treated as secrets and added to a hidden `.particularrc.json` file. Our VS Code extension uses this token to authenticate with Particular.Cloud. Write-access token enable text creation right from VS Code! How neat!
 
 ### Optional: Write-access token
@@ -86,7 +90,7 @@ Navigate to the settings page of your project and create a read-only token. Find
 
 *Note:* You can commit your **read-only** tokens to public repositories and to your client-side applications without fear.
 
-Add the following to your package.json in your project root folder:
+Add the following to your package.json:
 
 ```json
   "particular": {
@@ -104,8 +108,8 @@ Awesome! Let's replace `<read-only-token>` with the token from our clipboard. An
 ### npm
 
 ```bash
-# install the JavaScript i18n sdk
-npm i @particular.cloud/i18n-js
+# where we store our texts from Particular.Cloud
+npm i @particular.cloud/texts
 # install the command-line interface (cli)
 npm i -D particular.cloud
 ```
@@ -113,8 +117,8 @@ npm i -D particular.cloud
 ### yarn
 
 ```bash
-# install the JavaScript i18n sdk
-yarn add @particular.cloud/i18n-js
+# where we store our texts from Particular.Cloud
+yarn add @particular.cloud/texts
 # install the command-line interface (cli)
 yarn add -D particular.cloud
 ```
@@ -141,83 +145,76 @@ Let's automate this process by adding a postinstall command to the `package.json
   }
 ```
 
-## Integrate i18n-js into Express
+## Integrate Particular.Cloud into your Jovo application
 
-### Configure i18n-js
+### Pass i18next the texts from Particular.Cloud
 
-Let's import the `i18n` object from `@particular.cloud/i18n-js` into our Express application. Open your `index.js` file and add the following line:
+Remember that we loaded the texts from Particular.Cloud into our `node_modules` folder? Now we write a little logic to parse the texts from Particular.Cloud into the format expected from i18next.
 
-```js
-const { i18n } = require('@particular.cloud/i18n-js');
-```
+In your `src/app.ts` file, import the texts from `@particular.cloud/texts`. Next, parse them to the format expected by i18next and pass them to i18next:
 
-Next we use the init function call to configure i18n-js:
+```ts
+import { App } from '@jovotech/framework';
+import type { Resource } from 'i18next';
+// import the texts from Particular.Cloud
+import { texts } from '@particular.cloud/texts';
 
+import { GlobalComponent } from './components/GlobalComponent';
+import { LoveHatePizzaComponent } from './components/LoveHatePizzaComponent';
 
-```js
-const { i18n } = require('@particular/i18n-js');
-
-i18n.init({ defaultLanguage: 'en-US' });
-```
-
-*Note:* Make sure to run init only once during start up.
-
-We pass a defaultLanguage to i18n as a fallback and we are good to go! Learn about the extensive configuration options on the Particular.Cloud [i18n-js developer documentation](https://particular.cloud/documentation/developers/v1/javascript-api#init).
-
-Now, let's localize some server responses!
-
-### Use the t function call
-
-Remember that we fetched our localized strings from Particular.Cloud into our `node_modules` folder by running `npx particular.cloud texts`? Now, we use the t - t for translate - function call to query for that localized texts:
-
-```js
-const { i18n } = require('@particular/i18n-js');
-
-app.get('/', (req, res) => {
-    // query for localized texts locally from the `node_modules` folder
-    const text = i18n.t({ key: 'helloReply' });
-    // return the localized text
-    res.send(text);
+// map locally stored texts from Particular.Cloud to i18next resource object
+const resources: Resource = {};
+Object.entries(texts).forEach(([localeOrLangCode, texts]) => {
+  resources[localeOrLangCode] = { translation: texts };
 });
-```
 
-This will return `Hello World!` in US English as we specified `en-US` as our default language.
-
-Awesome! You integrated Particular.Cloud into your express project! 🎉
-
-### Accept-Language header
-
-One common approach to figure out the language of the user is to use the `Accept-Language` header.
-
-So let's add the following code to our request handler to get the `Accept-Language` header:
-
-```js
-const { i18n } = require('@particular/i18n-js');
-
-app.get('/', (req, res) => {
-    // get the accept-language header, e.g. "en-US,en;q=0.8,de;q=0.6"
-    const acceptLanguage = req.headers['accept-language'];
-    console.log(`user request with accept-language: ${acceptLanguage}`);
-
-    // let i18n know about the accept-language header
-    i18n.setAcceptLanguage(acceptLanguage);
-
-    // query for localized texts from Particular.Cloud
-    const text = i18n.t({ key: 'helloReply' });
-    res.send(text);
+const app = new App({
+  // ...
+  i18n: {
+    // pass i18n the texts from Particular.Cloud
+    resources,
+  },
+  // ...
 });
+
+export { app };
 ```
 
-*Note:* i18n-js will use the accept-language header to determine the language of the user based on your supported languages.
+### Use i18next
 
-> The defaultLanguage will be used as a fallback in case the user requests languages that are not supported.
+Now you can go ahead and use i18next with the resourcess from Particular.Cloud in your Jovo application:
 
-And we are all set! 🎉
+```ts
+import { Component, BaseComponent, Intents } from '@jovotech/framework';
+
+import { YesNoOutput } from '../output/YesNoOutput';
+
+@Component()
+export class LoveHatePizzaComponent extends BaseComponent {
+  START() {
+    return this.$send(YesNoOutput, { message: this.$t('do-you-like-pizza-prompt') });
+  }
+
+  @Intents(['YesIntent'])
+  lovesPizza() {
+    return this.$send({ message: this.$t('loves-pizza-reply'), listen: false });
+  }
+
+  @Intents(['NoIntent'])
+  hatesPizza() {
+    return this.$send({ message: this.$t('hates-pizza-reply'), listen: false });
+  }
+
+  UNHANDLED() {
+    return this.START();
+  }
+}
+```
+
+Learn more about i18n with i18next in Jovo in the [i18n Jovo documentation](https://www.jovo.tech/docs/i18n).
 
 ## Next steps
 
-### Refactor strings to t function calls
+### Create new texts in Particular.Cloud right from VS Code
 
-Use the VS Code extension to refactor strings to t function calls without leaving the editor. The strings are automatically saved to your Particular.Cloud project!
-
-You can find a short video detailing the keyboard shortcuts in the [VS Code documentation](https://particular.cloud/documentation/developers/v1/vscode#string-refactoring).
+You can use the Particular.Cloud VS Code extension to create new texts right from VS Code! Find more information in the [VS Code documentation on Particular.Cloud](https://particular.cloud/documentation/developers/v1/vscode#text-creation).
