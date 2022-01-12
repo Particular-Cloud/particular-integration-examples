@@ -77,7 +77,8 @@ Let's add a `.particularrc.json` file to our project root folder:
 
 Next, go back to your browser window and navigate to the settings page of your [Partiuclar.Cloud](https://particular.cloud) project and create a write-access token.
 
-[![Create write-access token on Particular.Cloud](https://s3.us-west-1.amazonaws.com/particular.cloud/thumbnail-create-write-acces-token.png)](https://vimeo.com/650518749 "Create write-access token on Particular.Cloud - Click to Watch!")
+[![Create write-access token on Particular.Cloud](https://s3.us-west-1.amazonaws.com/particular.cloud/thumbnail-create-write-acces-token.png)](https://vimeo.com/663837554
+ "Create write-access token on Particular.Cloud - Click to Watch!")
 
 Find more information about how to create tokens in the [developer documentation](https://particular.cloud/documentation/developers/v1).
 
