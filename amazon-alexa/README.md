@@ -74,7 +74,7 @@ Next, go back to your browser window and navigate to the settings page of your [
 [![Create write-access token on Particular.Cloud](https://s3.us-west-1.amazonaws.com/particular.cloud/thumbnail-create-write-acces-token.png)](https://vimeo.com/663837554
  "Create write-access token on Particular.Cloud - Click to Watch!")
 
-Find more information about how to create tokens in the [developer documentation](https://particular.cloud/documentation/developers/v1).
+Find more information about how to create tokens in the [developer documentation](https://particular.cloud/documentation/developers/v1#development-configuration).
 
 Copied the token to your clipboard? Awesome! Let's replace `<write-access-token>` in the `.particularrc.json` file with your write-access token.
 
@@ -85,7 +85,7 @@ And your VS Code extension is ready to go! 🚀
 
 Read-only token are used by our application to authenticate with Particular.Cloud. Additionally, our CLI tool uses this token to fetch texts from Particular.Cloud.
 
-Navigate to the settings page of your project and create a read-only token. Find more information about how to create a token in the [developer documentation](https://particular.cloud/documentation/developers/v1).
+Navigate to the settings page of your project and create a read-only token. Find more information about how to create a token in the [developer documentation](https://particular.cloud/documentation/developers/v1#development-configuration).
 
 *Note:* You can commit your **read-only** tokens to public repositories and to your client-side applications without fear.
 
